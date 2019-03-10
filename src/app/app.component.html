@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="header">Mensagens</h1>
+  </div>
+  <div class="row">
+    <form #form="ngForm" novalidate>
+      <div class="col-sm-4 col-sm-offset-4">
+          <ws-input errorMessage="Campo obrigatório" label="Message">
+              <input #iptMessage class="form-control" name="iptMessage" required minlength="1" ngModel placeholder="Type message..." autocomplete="off"/>
+          </ws-input>
+        </div>
+        <button class="btn btn-default" (click)="sendMessage(iptMessage.value)">Send</button>
+    </form>
+  </div>
+  <div *ngFor="let message of messages">
+    <ws-message [message]="message"></ws-message>
+  </div>
+</div>

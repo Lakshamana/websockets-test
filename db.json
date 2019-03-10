@@ -1,0 +1,18 @@
+{
+    "messages" : [
+        {
+            "id": 1,
+            "content": "message1"
+        },
+
+        {
+            "id": 2,
+            "content": "message2"
+        },
+
+        {
+            "id": 3,
+            "content": "message3"
+        }
+    ]
+}

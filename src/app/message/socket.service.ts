@@ -10,7 +10,8 @@ import { of } from 'rxjs';
 @Injectable()
 export class SocketService {
     
-    constructor(private stompClient: Stomp.Client){}
+    private stompClient: Stomp.Client
+    constructor(){}
 
     initSocket() {
         let ws = new SockJS(`${BASEURL}/ws`)
@@ -25,6 +26,6 @@ export class SocketService {
     }
 
     sendMessage(message: WebMessage) {
-        this.stompClient.send("/api/message" , {}, JSON.stringify(message));
+        this.stompClient.send("/api/message", {}, JSON.stringify(message))
     }
 }

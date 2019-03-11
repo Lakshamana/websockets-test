@@ -6,13 +6,23 @@
     <form #form="ngForm" novalidate>
       <div class="col-sm-4 col-sm-offset-4">
           <ws-input errorMessage="Campo obrigatório" label="Message">
-              <input #iptMessage class="form-control" name="iptMessage" required minlength="1" ngModel placeholder="Type message..." autocomplete="off"/>
+              <input #iptMessage class="form-control" name="iptMessage" required minlength="1" 
+                [(ngModel)]="inputTextValue" placeholder="Type message..." autocomplete="off"/>
           </ws-input>
         </div>
-        <button class="btn btn-default" (click)="sendMessage(iptMessage.value)">Send</button>
+        <button class="btn btn-default" [disabled]="!form.valid" (click)="sendMessage(iptMessage.value)">Send</button>
     </form>
   </div>
-  <div *ngFor="let message of messages">
-    <ws-message [message]="message"></ws-message>
+  <div class="table-responsive" *ngIf="getMessages().length">
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let message of getMessages()">
+          <th>{{message.content}}</th>
+          <td class="text-right">
+            <a (click)="removeMessage(message)" class="btn btn-danger">&times;</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

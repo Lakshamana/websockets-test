@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SimpleMessage } from './simplemessage.model';
 import { WebMessage } from './webmessage.model';
 
 @Component({

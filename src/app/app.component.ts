@@ -16,16 +16,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.socketService.initSocket()
-      .subscribe(message => console.log(message))
+      .subscribe(messages => this.messages = messages)
   }  
 
   sendMessage(messageContent: string) {
     this.inputTextValue = ''
     let message: WebMessage = {
+      id: 0,
       content: messageContent,
       type: "SEND"
     }
-    this.messages.push(message)
     this.socketService.sendMessage(message)
   }
 
@@ -34,10 +34,11 @@ export class AppComponent implements OnInit {
   }
 
   removeMessage(message: WebMessage) {
-    this.messages.splice(this.messages.indexOf(message), 1)
     this.socketService.sendMessage({
+      id: message.id,
       content: message.content,
       type: "DELETE"
     })
+    this.socketService.sendMessage(message)
   }
 }

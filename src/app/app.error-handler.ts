@@ -1,5 +1,5 @@
 import { Response } from "@angular/http";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 
 export class ErrorHandler {
     static handleError(error: Response | any) {
@@ -9,6 +9,6 @@ export class ErrorHandler {
         else 
             errorMessage = error.toString()
         console.log(errorMessage)
-        return Observable.throw(errorMessage)
+        return throwError(errorMessage)
     }
 }

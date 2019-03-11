@@ -16,10 +16,10 @@
   <div class="table-responsive" *ngIf="getMessages().length">
     <table class="table">
       <tbody>
-        <tr *ngFor="let message of getMessages()">
-          <th>{{message.content}}</th>
+        <tr *ngFor="let m of getMessages()">
+          <th>{{m.content}}</th>
           <td class="text-right">
-            <a (click)="removeMessage(message)" class="btn btn-danger">&times;</a>
+            <a (click)="removeMessage(m)" class="btn btn-danger">&times;</a>
           </td>
         </tr>
       </tbody>

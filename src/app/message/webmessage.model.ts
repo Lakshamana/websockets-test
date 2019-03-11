@@ -1,5 +1,5 @@
 export interface WebMessage {
-    id?: number
+    id: number
     content: string
     type: string
 }

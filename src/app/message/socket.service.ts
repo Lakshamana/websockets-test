@@ -5,27 +5,32 @@ import 'rxjs/add/operator/catch';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { WebMessage } from './webmessage.model'
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+import { Http } from '@angular/http';
+import { ErrorHandler } from '../app.error-handler';
 
 @Injectable()
 export class SocketService {
     
     private stompClient: Stomp.Client
-    constructor(){}
+    constructor() {}
 
     initSocket() {
         let ws = new SockJS(`${BASEURL}/ws`)
-        let incomingMessage: WebMessage
+        let incomingMessages: WebMessage[] = []
         this.stompClient = Stomp.over(ws)
         this.stompClient.connect({}, frame => {
-            this.stompClient.subscribe('/topic', message => {
-                incomingMessage = JSON.parse(message.body)
+            this.stompClient.subscribe('/chat', messages => {
+                let parsedMessages:any[] = JSON.parse(messages.body)
+                parsedMessages.forEach(m => {
+                    incomingMessages.push(m)
+                })
             })
         })
-        return of(incomingMessage)
+        return of(incomingMessages)
     }
 
     sendMessage(message: WebMessage) {
-        this.stompClient.send("/api/message", {}, JSON.stringify(message))
+        this.stompClient.send("/app/send/message", {}, JSON.stringify(message))
     }
 }

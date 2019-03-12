@@ -13,11 +13,11 @@
         <button class="btn btn-default" [disabled]="!form.valid" (click)="sendMessage(iptMessage.value)">Send</button>
     </form>
   </div>
-  <div class="table-responsive" *ngIf="getMessages().length">
+  <div class="table-responsive" *ngIf="messages.length">
     <table class="table">
       <tbody>
-        <tr *ngFor="let m of getMessages()">
-          <th>Content: {{m.content}}, id: {{m.id}}</th>
+        <tr *ngFor="let m of messages">
+          <th>{{m.content}}</th>
           <td class="text-right">
             <a (click)="removeMessage(m)" class="btn btn-danger">&times;</a>
           </td>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from './message/socket.service';
 import { WebMessage } from './message/webmessage.model';
-import { WebElementPromise } from 'protractor';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ws-root',
@@ -11,16 +11,19 @@ import { WebElementPromise } from 'protractor';
 export class AppComponent implements OnInit {
 
   messages: WebMessage[] = []
-  inputTextValue: string  
+  inputTextValue: string 
 
-  constructor(private socketService: SocketService){}
+  constructor(private socketService: SocketService) {}
 
   ngOnInit(): void {
     this.socketService.initSocket()
-      .subscribe(console.log)
-    this.getMessages()
-  }  
-
+    this.socketService.inMessages
+      .subscribe(messages => {
+        this.messages = messages
+        console.log('MESSAGES:', messages)
+      })
+  }                                                         
+                                    
   sendMessage(messageContent: string) {
     this.inputTextValue = ''
     this.socketService.sendMessage({
@@ -28,13 +31,6 @@ export class AppComponent implements OnInit {
       content: messageContent,
       type: "SEND"
     })
-    this.getMessages()
-  }
-
-  getMessages(): WebMessage[] {
-    this.socketService.getAllMessages()
-      .then(messages => this.messages = messages)
-    return this.messages
   }
 
   removeMessage(message: WebMessage) {
@@ -43,6 +39,5 @@ export class AppComponent implements OnInit {
       content: message.content,
       type: "DELETE"
     })
-    this.getMessages()
   }
 }

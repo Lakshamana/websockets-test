@@ -17,7 +17,7 @@
     <table class="table">
       <tbody>
         <tr *ngFor="let m of getMessages()">
-          <th>{{m.content}}</th>
+          <th>Content: {{m.content}}, id: {{m.id}}</th>
           <td class="text-right">
             <a (click)="removeMessage(m)" class="btn btn-danger">&times;</a>
           </td>

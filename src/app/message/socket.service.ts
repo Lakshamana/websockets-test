@@ -13,24 +13,28 @@ import { ErrorHandler } from '../app.error-handler';
 export class SocketService {
     
     private stompClient: Stomp.Client
-    constructor() {}
+    constructor(private http: Http) {}
 
-    initSocket() {
+    initSocket(): Observable<WebMessage> {
         let ws = new SockJS(`${BASEURL}/ws`)
-        let incomingMessages: WebMessage[] = []
         this.stompClient = Stomp.over(ws)
+        let incomingMessage: WebMessage
         this.stompClient.connect({}, frame => {
-            this.stompClient.subscribe('/chat', messages => {
-                let parsedMessages:any[] = JSON.parse(messages.body)
-                parsedMessages.forEach(m => {
-                    incomingMessages.push(m)
-                })
+            this.stompClient.subscribe('/chat', message => {
+                incomingMessage = JSON.parse(message.body)
             })
         })
-        return of(incomingMessages)
+        return of(incomingMessage)
     }
 
     sendMessage(message: WebMessage) {
         this.stompClient.send("/app/send/message", {}, JSON.stringify(message))
+    }
+
+    getAllMessages(): Promise<WebMessage[]> {
+        return this.http.get(`${BASEURL}/get/messages`)
+            .map(response => response.json())
+            .catch(ErrorHandler.handleError)
+            .toPromise()
     }
 }

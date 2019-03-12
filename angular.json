@@ -62,7 +62,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "wstest:build"
+            "browserTarget": "wstest:build",
+            "proxyConfig": "proxy.conf.js"
           },
           "configurations": {
             "production": {

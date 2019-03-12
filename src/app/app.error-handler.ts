@@ -8,7 +8,6 @@ export class ErrorHandler {
             errorMessage = `Erro ${error.status} ao acessar a URL ${error.url}: ${error.statusText}`
         else 
             errorMessage = error.toString()
-        console.log(errorMessage)
         return throwError(errorMessage)
     }
 }

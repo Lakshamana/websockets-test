@@ -29,28 +29,27 @@ public class MessageController {
     
     @MessageMapping("/send/message")
     @SendTo("/chat")
-    public WebsocketMessage receiveMessage(WebsocketMessage webMessage) {
+    public List<WebsocketMessage> receiveMessage(WebsocketMessage webMessage) {
         log.info("Message received: {}", webMessage);
-        log.info("LIST BEFORE: {}", this.list);
         if(webMessage.getType().equals("SEND")){
             webMessage.setId(counter.getAndIncrement());
-            log.info("AFTER: {}", webMessage);
             this.list.add(webMessage);
         } else {
             this.list.removeIf(message -> message.getId() == webMessage.getId());
         }
-        log.info("LIST AFTER: {}", this.list);
-        return webMessage;
+        return this.list;
     }
 
     @GetMapping("/destroy")
     public void destroyList() {
+        log.info("Request to clear list: {}", this.list);
         this.list.clear();
     }
 
     @CrossOrigin(origins="*")
     @GetMapping("/get/messages")
     public List<WebsocketMessage> getAllMessages() {
+        log.info("Request to get list: {}", this.list);
         return this.list;
     }
 }

@@ -2,11 +2,8 @@ package com.arjuna.websocketstest.model;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class WebsocketMessage {
 
-    @JsonIgnore
     private int id;
 
     private String content;

@@ -14,6 +14,8 @@ export class SocketService {
     
     private stompClient: Stomp.Client
     inMessages: BehaviorSubject<WebMessage[]> = new BehaviorSubject<WebMessage[]>([])
+    connected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+
     constructor(private http: Http) {}
 
     initSocket() {
@@ -22,12 +24,21 @@ export class SocketService {
         this.stompClient.connect({}, frame => {
             this.stompClient.subscribe('/chat', messages => {
                 this.inMessages.next(JSON.parse(messages.body))
+                this.connected.next(true)
             })
         })
     }
 
+    disconnectSocket() {
+        this.stompClient.disconnect(() => {
+            this.connected.next(false)
+        }, {})
+    }
+
     sendMessage(message: WebMessage) {
-        this.stompClient.send("/app/send/message", {}, JSON.stringify(message))
+        if(this.connected.getValue) {
+            this.stompClient.send("/app/send/message", {}, JSON.stringify(message))
+        }
     }
 
     getAllMessages(): Observable<WebMessage[]> {

@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   messages: WebMessage[] = []
   inputTextValue: string 
+  length: number = 0
 
   constructor(private socketService: SocketService) {}
 
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
     this.socketService.inMessages
       .subscribe(messages => {
         this.messages = messages
-        console.log('MESSAGES:', messages)
+        this.length = messages.length
       })
   }                                                         
                                     

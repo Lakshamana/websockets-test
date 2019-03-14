@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SocketService } from './message/socket.service';
 import { WebMessage } from './message/webmessage.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ws-root',
@@ -23,12 +22,16 @@ export class AppComponent implements OnInit {
       .subscribe(value => {
         this.socketConnected = value;
         if(value) {
-          // this.socketService.initSocket();
+          console.log('CONNECTED')
+          this.socketService.initSocket();
           this.socketService.inMessages
             .subscribe(messages => {
               this.messages = messages
               this.length = messages.length
+              console.log('MESSAGES:', this.messages)
             });
+        } else {
+          console.log('DISCONNECTED')
         }
       })
   }
@@ -42,10 +45,11 @@ export class AppComponent implements OnInit {
       this.label = 'Disconnect' 
       this.socketConnected = true
       this.socketService.getAllMessages()
-      .subscribe(messages => {
-        this.messages = messages
-        this.length = messages.length
-      })
+        .subscribe(messages => {
+          console.log('MESSAGES:', this.messages)
+          this.messages = messages
+          this.length = messages.length
+        })
       this.socketService.initSocket()
     }
   }

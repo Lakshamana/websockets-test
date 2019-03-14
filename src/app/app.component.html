@@ -14,12 +14,12 @@
               <input #iptMessage class="form-control" name="iptMessage" required minlength="1" 
                 [(ngModel)]="inputTextValue" placeholder="Type message..." autocomplete="off"/>
           </ws-input>
-        </div>
-        <div class="col-lg-4">
-          <button class="btn btn-success" [disabled]="!form.valid" (click)="sendMessage(iptMessage.value)">Send</button>
-        </div>
+      </div>
+      <div class="col-lg-4">
+        <button class="btn btn-success" [disabled]="!form.valid" (click)="sendMessage(iptMessage.value)">Send</button>
+      </div>
     </form>
-    <div class="table-responsive" *ngIf="messages.length">
+    <div class="table-responsive col-sm-8 col-sm-offset-2" *ngIf="messages.length">
       <table class="table">
         <tbody>
           <tr *ngFor="let m of messages">
